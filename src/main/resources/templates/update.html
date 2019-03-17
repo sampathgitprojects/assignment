@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$("#updateForm").on("submit", function(){
+		$.ajax({
+		    url: 'userInfo',
+		    type: 'PUT',
+		    dataType: "xml",
+		    data:$("#updateForm").serialize(),
+		    success: function(xml) {
+		    	console.log(xml);
+		    	var user="";
+		    	$(xml).find('User').each(function(){
+	                $(this).find("empId").each(function(){
+	                    var id = $(this).text();
+	                    console.log(empId);
+	                    user=user+"ID: "+empId;
+	                });
+	                $(this).find("username").each(function(){
+	                    var name = $(this).text();
+	                    console.log(username);
+	                    user=user+" Name: "+username;
+	                });
+	                $(this).find("passwordHash").each(function(){
+	                    var age = $(this).text();
+	                    console.log(passwordHash);
+	                    user=user+" password: "+passwordHash;
+	                });
+	                
+	                $(this).find("role").each(function(){
+	                    var age = $(this).text();
+	                    console.log(role);
+	                    user=user+" role: "+role;
+	                });
+	            });
+		    	alert(user);
+		    }
+		});
+	   return true;
+	 })
+
+</script>
+<head>
+<title>Update User</title>
+</head>
+<body>
+	<div style="padding-left:50px;font-family:monospace;">
+        <h2>Update User</h2>
+        <form id="updateForm">
+            <div style="width: 100px; text-align:left;">
+                <div style="padding:15px;">
+                    User ID: <input name="empId" />
+                </div>
+                <div style="padding:10px;">
+                    Name: <input name="username" />
+                </div>
+                <div style="padding:10px;">
+                    password: <input name="password" />
+                </div>
+                <div style="padding:10px;">
+                    role: <input name="role" />
+                </div>
+                <div style="padding:20px;text-align:center">
+                    <input type="submit" value="Submit" />
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
