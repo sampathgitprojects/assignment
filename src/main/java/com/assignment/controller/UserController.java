@@ -23,7 +23,10 @@ import com.assignment.service.UserDetailServiceImpl;
 import com.assignment.utility.AppConstants;
 
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 @Controller
 public class UserController {
@@ -68,6 +71,7 @@ public class UserController {
 
 	@GetMapping("/deleteUser")
 	public String deleteUser(Model model) {
+		model.addAttribute("deleteForm", new SignupForm());
 		return AppConstants.DELETE;
 	}
 
@@ -102,29 +106,41 @@ public class UserController {
 	}
 
 	@PutMapping("userInfo")
-	public String updateUser(
-			@Valid @ModelAttribute("updateForm") SignupForm updateForm,
-			BindingResult bindingResult) {
+	@Produces(MediaType.TEXT_XML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public String updateUser(@FormParam("empId") String empId,
+			@FormParam("username") String name,
+			@FormParam("password") String password,
+			@FormParam("role") String role, BindingResult bindingResult) {
 
-		User user = userDetailServiceImpl
-				.getUserForEmpId(updateForm.getEmpId());
+		User user = userDetailServiceImpl.getUserForEmpId(empId);
 		if (StringUtils.isEmpty(user)) {
 			bindingResult.rejectValue("passwordCheck", "error.pwdmatch",
 					"Passwords does not match");
 			return AppConstants.UPDATE;
 		} else {
-			String pwd = updateForm.getPassword();
 			BCryptPasswordEncoder bc = new BCryptPasswordEncoder();
-			String hashPwd = bc.encode(pwd);
-			repository.updateUserInfo(updateForm.getUsername(), hashPwd,
-					updateForm.getRole());
+			String hashPwd = bc.encode(password);
+			repository.updateUserInfo(name, hashPwd, role);
 			return AppConstants.INDEX;
 		}
 
 	}
 
 	@DeleteMapping("/delete")
+	@Produces(MediaType.TEXT_XML)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Boolean deleteeUser(@FormParam("empId") String id) {
 		return userDetailServiceImpl.deleteUser(id);
 	}
+
+	public void setRepository(UserRepository repository) {
+		this.repository = repository;
+	}
+
+	public void setUserDetailServiceImpl(
+			UserDetailServiceImpl userDetailServiceImpl) {
+		this.userDetailServiceImpl = userDetailServiceImpl;
+	}
+
 }

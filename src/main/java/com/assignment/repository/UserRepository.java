@@ -24,6 +24,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	@Modifying
 	@Query("update User u set u.username = ?1, u.passwordHash = ?2 where u.role = ?3")
-	void updateUserInfo(String userName, String password, String role);
+	int updateUserInfo(String userName, String password, String role);
 
 }
