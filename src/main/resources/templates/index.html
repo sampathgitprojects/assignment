@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<div style="padding-left:50px;font-family:monospace;">
+			User Operations</br></br>
+		<a th:href="@{/addUser}" class="btn btn-primary btn-xs">Add User</a>
+    	<a th:href="@{/getUser}" class="btn btn-primary btn-xs">GetUser</a>
+    	<a th:href="@{/updateUser}" class="btn btn-primary btn-xs">Update User</a>
+		<a sec:authorize="hasAuthority('ADMIN')" th:href="@{/deleteUser}" class="btn btn-danger btn-xs">Delete</a>
+		
+		<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-danger"/>
+		</form>
+	</div>
+		
+	</div>
+</body>
+</html>

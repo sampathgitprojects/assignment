@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Create User</title>
+</head>
+<body>
+	<div style="padding-left:50px;font-family:monospace;">
+		<h2>Create User</h2>
+		
+		<form th:object="${signupForm}" th:action="@{saveuser}" action="#" method="post">
+			<input type="text" th:field="*{empId}" class="form-control"
+				placeholder="employeID" />
+			<input type="text" th:field="*{username}" class="form-control"
+				placeholder="username" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<input type="text" th:field="*{password}" class="form-control"
+				placeholder="password" />
+			<div style="clear: both; display: block; height: 10px;"></div>	
+			<input type="text" th:field="*{role}" class="form-control"
+				placeholder="Role" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+			<input type="submit" class="btn btn-primary" value="Save"></input>
+		</form>
+	</div>
+</body>
+</html>
