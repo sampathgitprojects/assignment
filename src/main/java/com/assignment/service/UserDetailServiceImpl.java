@@ -1,5 +1,7 @@
 package com.assignment.service;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +59,12 @@ public class UserDetailServiceImpl implements UserDetailsService {
 		return user;
 	}
 
+	@Transactional
 	public void updateUser(String userName, String password, String role) {
 		repository.updateUserInfo(userName, password, role);
 	}
 
+	@Transactional
 	public Boolean deleteUser(String empId) {
 		User user = null;
 		try {
